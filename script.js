@@ -4,8 +4,13 @@
 const hamburger = document.getElementById('hamburger');
 const mobileNav = document.getElementById('mobile-nav');
 const overlay   = document.getElementById('overlay');
+const header    = document.querySelector('.header');
+const mainEl    = document.getElementById('main-content');
+const footer    = document.querySelector('.footer');
 
 if (hamburger && mobileNav && overlay) {
+  let prevOverflow = '';
+
   function openNav() {
     hamburger.setAttribute('aria-expanded', 'true');
     hamburger.setAttribute('aria-label', 'Close navigation menu');
@@ -13,7 +18,11 @@ if (hamburger && mobileNav && overlay) {
     mobileNav.classList.add('is-active');
     mobileNav.removeAttribute('aria-hidden');
     overlay.classList.add('is-active');
+    prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    // Make background content unreachable at the HTML level
+    if (mainEl)  mainEl.inert  = true;
+    if (footer)  footer.inert  = true;
     // Move focus to the first nav link
     const firstLink = mobileNav.querySelector('.mobile-nav__link');
     if (firstLink) firstLink.focus();
@@ -26,7 +35,10 @@ if (hamburger && mobileNav && overlay) {
     mobileNav.classList.remove('is-active');
     mobileNav.setAttribute('aria-hidden', 'true');
     overlay.classList.remove('is-active');
-    document.body.style.overflow = '';
+    document.body.style.overflow = prevOverflow;
+    // Restore background content
+    if (mainEl)  mainEl.inert  = false;
+    if (footer)  footer.inert  = false;
     // Return focus to the trigger
     hamburger.focus();
   }
@@ -49,6 +61,7 @@ if (hamburger && mobileNav && overlay) {
   mobileNav.addEventListener('keydown', (e) => {
     if (e.key !== 'Tab') return;
     const focusable = Array.from(mobileNav.querySelectorAll('.mobile-nav__link'));
+    if (focusable.length === 0) return;
     const first = focusable[0];
     const last  = focusable[focusable.length - 1];
     if (e.shiftKey) {
@@ -69,9 +82,13 @@ if (hamburger && mobileNav && overlay) {
     link.addEventListener('click', closeNav);
   });
 
-  // Close nav when resizing to desktop
+  // Close nav when resizing to desktop (debounced)
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    if (window.innerWidth >= 1024) closeNav();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (window.innerWidth >= 1024) closeNav();
+    }, 150);
   });
 }
 

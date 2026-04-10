@@ -28,6 +28,14 @@
   /* Animation */
   --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
   --transition-base: 250ms var(--ease-out-cubic);
+
+  /* Shadows */
+  --shadow-header: 0 2px 12px hsl(233 26% 24% / 0.08);
+  --shadow-card:   0 12px 30px hsl(233 26% 24% / 0.12);
+
+  /* Focus ring */
+  --focus-outline: 2px solid var(--clr-green-500);
+  --focus-offset:  3px;
 }
 
 /* ============================================================
@@ -60,6 +68,14 @@ img, picture, video, canvas, svg { display: block; max-width: 100%; }
 input, button, textarea, select { font: inherit; }
 ul { list-style: none; padding: 0; }
 a { text-decoration: none; }
+
+/* Global keyboard focus style — overridden per-component where needed */
+:focus { outline: none; }
+:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-offset);
+  border-radius: 2px;
+}
 
 /* ============================================================
    BASE
@@ -106,6 +122,11 @@ html {
   &:active {
     transform: translateY(0);
   }
+
+  &:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+  }
 }
 
 .btn--primary {
@@ -139,7 +160,7 @@ html {
   top: 0;
   z-index: 100;
   background-color: var(--clr-white);
-  box-shadow: 0 2px 12px hsl(233 26% 24% / 0.08);
+  box-shadow: var(--shadow-header);
 }
 
 .header__inner {
@@ -185,7 +206,7 @@ html {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 0.1875rem;
     background: var(--gradient-btn);
     transform: scaleX(0);
     transition: transform var(--transition-base);
@@ -194,6 +215,15 @@ html {
 
   &:hover {
     color: var(--clr-blue-950);
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  &:focus-visible {
+    color: var(--clr-blue-950);
+    outline: none;
 
     &::after {
       transform: scaleX(1);
@@ -221,6 +251,12 @@ html {
   cursor: pointer;
   padding: 0.25rem;
   margin-inline-start: auto;
+  border-radius: 4px;
+
+  &:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+  }
 
   @media (min-width: 64em) {
     display: none;
@@ -281,6 +317,13 @@ html {
 
   &:hover {
     color: var(--clr-green-500);
+  }
+
+  &:focus-visible {
+    color: var(--clr-green-500);
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+    border-radius: 2px;
   }
 }
 
@@ -558,6 +601,13 @@ html {
   &:hover {
     color: var(--clr-green-500);
   }
+
+  &:focus-visible {
+    color: var(--clr-green-500);
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+    border-radius: 2px;
+  }
 }
 
 .article-card__excerpt {
@@ -614,6 +664,7 @@ html {
   display: flex;
   align-items: center;
   transition: filter var(--transition-base);
+  border-radius: 2px;
 
   & img {
     width: 1.25rem;
@@ -623,6 +674,15 @@ html {
 
   &:hover img {
     filter: brightness(0) saturate(100%) invert(62%) sepia(54%) saturate(405%) hue-rotate(97deg) brightness(97%) contrast(90%);
+  }
+
+  &:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+
+    & img {
+      filter: brightness(0) saturate(100%) invert(62%) sepia(54%) saturate(405%) hue-rotate(97deg) brightness(97%) contrast(90%);
+    }
   }
 }
 
@@ -652,6 +712,13 @@ html {
 
   &:hover {
     color: var(--clr-green-500);
+  }
+
+  &:focus-visible {
+    color: var(--clr-green-500);
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+    border-radius: 2px;
   }
 }
 
@@ -688,6 +755,13 @@ html {
 
     &:hover {
       color: var(--clr-green-500);
+    }
+
+    &:focus-visible {
+      color: var(--clr-green-500);
+      outline: var(--focus-outline);
+      outline-offset: var(--focus-offset);
+      border-radius: 2px;
     }
   }
 }
@@ -728,7 +802,8 @@ html {
   }
 
   .btn, .nav__link, .article-card, .article-card__image,
-  .footer__link, .footer__social-link, .mobile-nav__link {
+  .footer__link, .footer__social-link, .mobile-nav__link,
+  .skip-link {
     transition: none;
   }
 }
