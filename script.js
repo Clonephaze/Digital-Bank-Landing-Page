@@ -38,6 +38,32 @@ if (hamburger && mobileNav && overlay) {
 
   overlay.addEventListener('click', closeNav);
 
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') {
+      closeNav();
+    }
+  });
+
+  // Focus trap inside mobile nav
+  mobileNav.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+    const focusable = Array.from(mobileNav.querySelectorAll('.mobile-nav__link'));
+    const first = focusable[0];
+    const last  = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+
   // Close on mobile nav link click
   mobileNav.querySelectorAll('.mobile-nav__link').forEach(link => {
     link.addEventListener('click', closeNav);

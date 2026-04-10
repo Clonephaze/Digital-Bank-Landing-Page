@@ -31,6 +31,27 @@
 }
 
 /* ============================================================
+   SKIP LINK
+   ============================================================ */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--clr-green-500);
+  color: var(--clr-white);
+  font-weight: var(--fw-bold);
+  font-size: 0.875rem;
+  border-radius: 0 0 0.25rem 0.25rem;
+  z-index: 9999;
+  transition: top 200ms ease;
+
+  &:focus {
+    top: 0;
+  }
+}
+
+/* ============================================================
    RESET
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; }
@@ -130,7 +151,10 @@ html {
 
 .header__logo {
   flex-shrink: 0;
-  margin-inline-end: auto;
+}
+
+.header__inner .nav {
+  margin-inline: auto;
 }
 
 /* Desktop nav */
@@ -645,7 +669,7 @@ html {
 
 .footer__copy {
   font-size: 0.875rem;
-  color: var(--clr-gray-600);
+  color: var(--clr-gray-100);
 }
 
 /* ============================================================
@@ -656,7 +680,7 @@ html {
   text-align: center;
   padding: 0.875rem;
   background-color: var(--clr-blue-950);
-  color: var(--clr-gray-600);
+  color: var(--clr-gray-100);
 
   & a {
     color: var(--clr-cyan-400);
